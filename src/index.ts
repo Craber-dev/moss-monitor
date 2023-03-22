@@ -19,3 +19,5 @@ class Student {
 }
 
 export default Student
+
+console.log('test auto publish');
