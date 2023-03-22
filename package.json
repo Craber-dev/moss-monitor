@@ -22,6 +22,9 @@
     "HNP"
   ],
   "devDependencies": {
+    "@commitlint/cli": "^17.4.4",
+    "@commitlint/config-conventional": "^17.4.4",
+    "@types/node": "^18.15.5",
     "@webpack-cli/generators": "^3.0.1",
     "autoprefixer": "^10.4.14",
     "css-loader": "^6.7.3",
