@@ -1,0 +1,5 @@
+# Ignore artifacts:
+config
+node_modules
+public
+scripts
