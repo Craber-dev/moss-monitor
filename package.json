@@ -1,7 +1,7 @@
 {
-  "name": "my-webpack-project",
-  "version": "1.0.0",
-  "description": "My webpack project",
+  "name": "moss-monitor",
+  "version": "0.0.1",
+  "description": "前端监控本地数据采集SDK",
   "author": "craber-dev",
   "license": "ISC",
   "main": "./dist/main.js",
