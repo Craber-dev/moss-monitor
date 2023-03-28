@@ -1,23 +1,23 @@
-export type LogType = 'error' | 'info';
+import ReportFormer from "./utils/report";
+import { v4 as uuid } from "uuid";
+import Controller from "./controller";
+import PerformanceMonitor from "./monitor/performance/performance";
+import ErrorMonitor from "./monitor/error/error";
 
-export const zLog = (type: LogType) => {
-  console.log(type);
-}
+const uid = uuid();
+const pid = uuid();
+export const GlobalReportFormer = new ReportFormer(uid, pid);
+export const ReporterController = new Controller({
+  url: '...',
+})
 
-export interface StudentProps {
-  name:string,
-  class:string
-}
-
-class Student {
-  name:string
-  class:string
-  constructor(std:StudentProps) {
-    this.name = std.name
-    this.class = std.class
+const Moss = {
+  start() {
+    new PerformanceMonitor({
+      sampleRate: 0.1,
+      interval: 1000,
+    });
+    new ErrorMonitor(pid, '');
   }
 }
-
-export default Student
-
-console.log('test auto publish');
+export default Moss;
