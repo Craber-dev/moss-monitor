@@ -1,6 +1,6 @@
 {
   "name": "moss-monitor",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "前端监控本地数据采集SDK",
   "author": "craber-dev",
   "license": "ISC",
