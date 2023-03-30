@@ -1,7 +1,7 @@
 /**
  * FPSCounter类用于实时获取浏览器的FPS，并将其存储到fps变量中。
  */
-class FPSCounter {
+export default class FPSCounter {
   private fps: number = 0; // 当前帧率
   private lastFrameTime: number = 0; // 上一帧的时间戳
   private frameCount: number = 0; // 当前帧数

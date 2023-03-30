@@ -1,6 +1,6 @@
-import { GlobalReportFormer, ReporterController } from 'src';
-import { ReportType } from 'src/types/report';
-import IntervalSampling from 'src/utils/sampling';
+import { GlobalReportFormer, ReporterController } from '@/index';
+import { ReportType } from '@/types/report';
+import IntervalSampling from '@/utils/sampling';
 import {
   onCLS, // 监听 Cumulative Layout Shift 指标
   onFCP, // 监听 First Contentful Paint 指标
@@ -10,6 +10,7 @@ import {
 } from 'web-vitals';
 
 import FMPCounter from './fmpCounter';
+import FPSCounter from './fpsCounter';
 
 export default class PerformanceMonitor {
   private sampleRate: number;
@@ -42,7 +43,7 @@ export default class PerformanceMonitor {
         results.forEach((item) => this.PerformanceReporter(name, item)); // 调用上报函数上报数据
       }
     })
-    return sampling.select; // 返回采样上报函数
+    return sampling.select.bind(sampling); // 返回采样上报函数
   }
 
   // 开启 Web Vitals 监控
@@ -74,9 +75,9 @@ export default class PerformanceMonitor {
       }));
     });
     EventTimingObserver.observe({ type: 'event', buffered: true });
-
+    const handleFPSReport = this.getSamplingReporter('FPS');
     // 实例化 FPSCounter 并使用采样上报函数传入数据
-    new FPSCounter((fps: number) => this.getSamplingReporter('FPS')({ fps }));
+    new FPSCounter((fps: number) => handleFPSReport({ fps }));
 
     // 获取采样上报函数
     const handleScrollLatecy = this.getSamplingReporter('ScrollLatency');
@@ -102,6 +103,7 @@ export default class PerformanceMonitor {
     LongTaskObserver.observe({type: "longtask", buffered: true});
 
     // 实例化 FMPCounter 并使用采样上报函数传入数据
-    new FMPCounter(({ fmpTiming }) => this.getSamplingReporter('FMP')({ fmpTiming }));
+    const handleFMPReport = this.getSamplingReporter('FMP');
+    new FMPCounter(({ fmpTiming }) => handleFMPReport({ fmpTiming }));
   }
 }

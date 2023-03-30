@@ -11,13 +11,14 @@ export const ReporterController = new Controller({
   url: '...',
 })
 
-const Moss = {
-  start() {
-    new PerformanceMonitor({
-      sampleRate: 0.1,
-      interval: 1000,
-    });
-    new ErrorMonitor(pid, '');
-  }
+function start() {
+  new PerformanceMonitor({
+    sampleRate: 0.1,
+    interval: 5000,
+  });
+  new ErrorMonitor(pid, '');
 }
-export default Moss;
+
+export default {
+  start
+};

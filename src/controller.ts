@@ -37,7 +37,8 @@ export default class Controller {
     this.reportQueue.push(report);
     if (!this.timeout) {
       // 如果定时器不存在，则设置定时器
-      this.timeout = setTimeout(this.send, this.bufferTime);
+      const that = this;
+      this.timeout = setTimeout(() => that.send(), this.bufferTime);
     }
   }
 
@@ -45,13 +46,13 @@ export default class Controller {
   private send() {
     if (this.reportQueue?.length) {
       // 如果队列中有数据，则进行上报
-      const navigtor = new Navigator();
       if (this.noLogInDev && process.env.NODE_ENV === 'development') {
         // 如果在开发环境中，且设置了不上报，则将数据输出到控制台
         this.reportQueue.forEach((item) => {
           console.log(`[${formatTime(item.time)}]${item.type} - ${item.name}: `, item);
         })
       } else {
+        const navigtor = new Navigator();
         // 否则，将数据发送到指定的 URL
         navigtor.sendBeacon(this.url, JSON.stringify({
           data: this.reportQueue,

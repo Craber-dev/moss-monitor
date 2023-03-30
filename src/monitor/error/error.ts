@@ -1,5 +1,5 @@
-import { GlobalReportFormer, ReporterController } from 'src';
-import { ReportType } from 'src/types/report';
+import { GlobalReportFormer, ReporterController } from '@/index';
+import { ReportType } from '@/types/report';
 import CrushMonitor from './crushMonitor';
 
 export default class ErrorMonitor {
@@ -16,7 +16,7 @@ export default class ErrorMonitor {
     this.rewriteFetch();
 
     // 创建 crushMonitor 的实例，监控页面奔溃
-    new CrushMonitor(this.ErrorReporter, pid, reportTarget);
+    new CrushMonitor((data: any) => this.ErrorReporter('crush', data), pid, reportTarget);
   }
 
   // 获取 GlobalReportFormer 类的实例，并使用 ReportType.Error 参数来创建 ErrorReportFormer 方法
@@ -30,8 +30,6 @@ export default class ErrorMonitor {
       if (error) {
         // 使用 ErrorReporter 方法上报 JavaScript 异常
         this.ErrorReporter('js-error', error);
-        // 向上层抛出错误，使其在控制台显示
-        throw error;
       }
     });
     window.addEventListener('unhandledrejection', error => {

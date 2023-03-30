@@ -1,3 +1,5 @@
+import { resolve } from "path-browserify";
+
 // 声明一个枚举类型，用于定义消息类型
 enum SWMessageType {
   Init = 'init', // 初始化消息
@@ -13,6 +15,8 @@ interface CrushMonitorTags {
   loadTime?: string; // 页面加载时间
   unloadTime?: string; // 页面卸载时间
 }
+
+// const SWFilePath = resolve(__dirname, 'sw.js');
 
 // 用于监测页面奔溃
 export default class CrushMonitor {
@@ -39,7 +43,7 @@ export default class CrushMonitor {
     // 检查浏览器是否支持 web worker
     if(Worker) {
       // 创建一个新的 worker 实例
-      const sw = new Worker('./sw.js');
+      const sw = new Worker(resolve(__dirname, 'sw.js'));
 
       // 发送初始化消息
       sw.postMessage({

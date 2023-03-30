@@ -35,7 +35,7 @@ export default class IntervalSampling {
     this.queue.push(sample); // 将样本推送到队列中
     if (!this.timeout) {
       // 如果当前没有正在等待的定时器
-      this.timeout = setTimeout(this.sampling, this.interval); // 设置新的定时器，并在采样间隔时间之后触发采样
+      this.timeout = setTimeout(this.sampling.bind(this), this.interval); // 设置新的定时器，并在采样间隔时间之后触发采样
     }
   }
 
@@ -49,5 +49,6 @@ export default class IntervalSampling {
         : this.queue.filter(() => Math.random() < this.sampleRate) // 否则，使用过滤器函数按照概率采样
     );
     this.queue = []; // 采样完毕后清空队列
+    this.timeout = null;
   }
 }

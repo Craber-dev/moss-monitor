@@ -133,9 +133,9 @@ class FMPCounter {
           return false;
         }
         let resultEls: FMP.Els = this.filterResult(tp.els);
-        console.log('最终节点集合', tp, resultEls);
+        // console.log('最终节点集合', tp, resultEls);
         let fmpTiming: number = this.getFmpTime(resultEls);
-        console.log('最终 FMP', fmpTiming);
+        // console.log('最终 FMP', fmpTiming);
         if (this.fmpCallback) {
           this.fmpCallback({
             tp,
