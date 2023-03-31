@@ -18,13 +18,13 @@ export default class IntervalSampling {
     resultHandler: (samples: any[]) => any; // 用于处理采样后的结果的函数
     sampleRate: number; // 采样率
     interval: number; // 采样间隔时间
-    startCount?: number; // 在开始采样前收集的样本数目，可选，默认为采样间隔时间除以5000的上整数
+    startCount?: number; // 在开始采样前收集的样本数目，可选，默认为采样率的相反数
   }) {
     const { resultHandler, sampleRate, interval, startCount } = samplingConfig;
     this.resultHandler = resultHandler;
     this.sampleRate = sampleRate;
     this.interval = interval;
-    this.startCount = startCount ? startCount : Math.ceil(1 / sampleRate); // 如果未设置开始采样前收集的样本数目，则默认为采样间隔时间除以5000的上整数
+    this.startCount = startCount ? startCount : Math.ceil(1 / sampleRate); // 如果未设置开始采样前收集的样本数目，则默认为采样率的相反数
   }
 
   /**
@@ -44,7 +44,7 @@ export default class IntervalSampling {
    */
   sampling() {
     this.resultHandler(
-      this.queue.length <= this.startCount // 如果采样队列中的数据量小于等于开始采样前设定的收集样本数目
+      this.queue.length <= this.startCount && this.interval !== 0 // 如果采样队列中的数据量小于等于开始采样前设定的收集样本数目
         ? this.queue // 直接将队列中的所有数据发送到结果处理函数中
         : this.queue.filter(() => Math.random() < this.sampleRate) // 否则，使用过滤器函数按照概率采样
     );
